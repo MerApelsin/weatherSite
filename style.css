@@ -1,6 +1,7 @@
 .secToday {
   display: flex;
   background-color: green;
+  position: center;
 }
 .secWeek {
   display: flex;

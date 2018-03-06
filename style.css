@@ -1,0 +1,8 @@
+.secToday {
+  display: flex;
+  background-color: green;
+}
+.secWeek {
+  display: flex;
+  background-color: blue;
+}

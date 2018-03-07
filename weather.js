@@ -48,29 +48,27 @@ function handleData(apiResponse){
   //time - to be here
   //hämta temperaturen - console.log(apiResponse.timeSeries[x].parameters[1].values); -para[1] = alltid sant
   let myTime = getDateString();
+  console.log("myTime before loop: " + myTime);
   let myTimeDate = myTime.slice(0,10);
   let myTimeHours = myTime.slice(11,16);
   let thisValue = 0;
   for(let i = 0; i < apiResponse.timeSeries.length; i++)
   {
     //<fetchname>.timeSeries[x].validTime
-    let responseTime = apiResponse.timeSeries[i].validTime
+    let responseTime = apiResponse.timeSeries[i].validTime;
     let rTimeDate = responseTime.slice(0,10);
     let rTimeHours = responseTime.slice(11,16);
-    console.log("rtimehrs: " + rTimeHours);
-    console.log("mytime: " + myTimeHours);
+    console.log("(in for) rtimehrs: " + rTimeHours + ", rtimedate: " + rTimeDate);
     //let isRightTime = compareTimeArray(myTimeHours,rTimeHours);
-    if(rTimeDate == myTimeDate && compareTimeArray(myTimeHours,rTimeHours) == 1)
+    if(rTimeDate === myTimeDate && compareTimeArray(myTimeHours,rTimeHours) == true)
     {
-      console.log("round:  ");
+      console.log("(in if - in for) round:  ");
       console.log(i);
-      console.log("rTimeDate: " + rTimeDate);
-      console.log("rTimeHours: " + rTimeHours);
       thisValue = i;
       break;
     }
   }
-  let textNode = document.createTextNode("current temperature: " + apiResponse.timeSeries[thisValue].parameters[1].values + " Celsius");
+  let textNode = document.createTextNode("current temperature: " + apiResponse.timeSeries[thisValue].parameters[11].values[0] + " Celsius");
   console.log("Pure API response - time series");
   console.log(apiResponse.timeSeries);
   console.log("validTime: ");
@@ -103,35 +101,29 @@ function getDateString()
 //returnerar true eller false
 function compareTimeArray(myHours,apiHours)
 {
-  let myHoursArray = myHours.split(':').map(Number);
-  let apiHoursArray = apiHours.split(':').map(Number);
-  myHoursArray[0] = myHoursArray[0]+1;
-  let compare = 0;
+  //HH:MM:SS
+  let myTime = myHours.split(':').map(Number);
+  let apiTime = apiHours.split(':').map(Number);
 
-  if(myHoursArray[0] > apiHoursArray[0])
+  //låter tiden kunna jämföras även vid midnatt.
+  if(apiTime[0] == 0 && myTime[0] == 23)
   {
-    console.log("first if");
-    compare = -1;
-    //return false;
+    return true;
   }
-  else if (myHoursArray[0] == apiHours[0] && myHoursArray[1] > 30)
+
+  //mellan spanet 1830 - 1930 = 100 - 30 = skillnad på 70 -> visa 19's prognos
+  if (apiTime[0] - 1 <= myTime[0] && myTime[0] <= apiTime[0])
   {
     console.log("second if");
-    compare = -1;
-    //return false;
+    return true;
   }
-  else if (myHoursArray[0] == apiHoursArray[0] && myHoursArray[1] < 30)
+  else
   {
     console.log("third if");
-    compare = 1;
-    //return true;
+    return false;
   }
-  else if(myHoursArray[0] < apiHoursArray[0] && myHoursArray[1] < 30)
-  {
-    console.log("fourth if");
-    compare = 1;
-    //return true;
-  }
+
+  console.log("compare value: ");
   console.log(compare);
   return compare;
 }

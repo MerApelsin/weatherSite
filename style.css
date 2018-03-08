@@ -1,11 +1,14 @@
+
+
 body {
   width: 100%;
   height: auto;
+  margin: 0;
+  background-image: url(img/background.jpeg);
 }
 
 .secToday {
   display: flex;
-  background-color: green;
   justify-content: center;
   text-align: center;
   width: auto;
@@ -14,14 +17,15 @@ body {
 }
 .secWeek {
   display: flex;
-  background-color: blue;
   justify-content: space-around;
   text-align: center;
   flex-direction: row;
 }
 .background
 {
-  background-color: white;
+  background-color: rgba(255, 255, 255, 0.6);
+  background-repeat: no-repeat;
+  padding: 2rem;
   height: auto;
   width: auto;
 }
@@ -33,8 +37,10 @@ body {
 }
 
 .futureStyle{
-  border: 1px solid black;
+  border-left: 1px solid black;
+  border-right: 1px solid black;
   padding: 1.5rem;
+  background-color: rgba(255, 255, 255, 0.5);
 }
 .futureStyle img{
   width: 80%;
@@ -43,4 +49,5 @@ body {
 footer
 {
   text-align: center;
+  color: white;
 }

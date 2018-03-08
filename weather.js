@@ -70,6 +70,7 @@ function handleToday(apiResponse)
     let responseTime = apiResponse.timeSeries[i].validTime;
     let rTimeDate = responseTime.slice(0,10);
     let rTimeHours = responseTime.slice(11,16);
+    console.log(apiResponse.timeSeries);
 
     //let isRightTime = compareTimeArray(myTimeHours,rTimeHours);
     if(rTimeDate === myTimeDate && compareTimeArray(myTimeHours,rTimeHours) == true)

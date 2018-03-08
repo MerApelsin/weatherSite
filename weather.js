@@ -1,4 +1,4 @@
-getData();
+//getData();
 //timeTesting();
 function timeTesting(){
   /*//Hämta nuvarande tid
@@ -81,7 +81,7 @@ function handleToday(apiResponse)
   document.getElementById("showDate").innerHTML = "Visar prognos för Idag ("+myTimeDate+"), klockan: " + getTimeFetched(apiResponse.timeSeries[thisValue].validTime);
   let thisTempPara = findTemp(apiResponse.timeSeries[thisValue].parameters, false);
   let thisIconPara = findTemp(apiResponse.timeSeries[thisValue].parameters, true);
-  iconDraw(apiResponse.timeSeries[thisValue].parameters[thisIconPara].values[0]);
+  iconDraw(apiResponse.timeSeries[thisValue].parameters[thisIconPara].values[0],"todaysIcon","iconText");
   let textNode = document.createTextNode("Nuvarande temperatur är ungefär: " + apiResponse.timeSeries[thisValue].parameters[thisTempPara].values[0] + " Celsius");
   myTextTag.appendChild(textNode);
   theDiv.appendChild(myTextTag);
@@ -111,17 +111,36 @@ function handleWeek(apiResponse)
     }
     console.log("valueArray");
     console.log(valueArray);
-    temperArray.push(findTemp(apiResponse.timeSeries[valueArray[i]].parameters, false););
-    iconArray.push(findTemp(apiResponse.timeSeries[valueArray[i]].parameters, true););
-    //iconDraw(apiResponse.timeSeries[thisValue].parameters[thisIconPara].values[0]);
+    temperArray.push(findTemp(apiResponse.timeSeries[valueArray[i]].parameters, false));
+    iconArray.push(findTemp(apiResponse.timeSeries[valueArray[i]].parameters, true));
   }
+  drawWeek(apiResponse,valueArray,temperArray,iconArray,weekToShow)
+}
+
+function drawWeek(apiResponse,valueArray,temperArray,iconArray, weekToShow)
+{
+  //apiResponse.timeSeries[thisValue].parameters[thisTempPara].values[0]
+  //iconDraw(apiResponse.timeSeries[thisValue].parameters[thisIconPara].values[0],iconId,textId);
+  console.log(apiResponse.timeSeries);
+    for(let a = 0; a < weekToShow.length; a++)
+    {
+      let prognosTime = document.getElementById("date"+a);
+      let temperatur = document.getElementById("temp"+a);
+      let tempToWrite = apiResponse.timeSeries[valueArray[a]].parameters[temperArray[a]].values[0];
+      console.log("tempToWrite");
+      console.log(tempToWrite);
+      console.log();
+      prognosTime.innerHTML = weekToShow[a];
+      iconDraw(apiResponse.timeSeries[valueArray[a]].parameters[iconArray[a]].values[0],"future"+a,"ftext"+a);
+      temperatur.innerHTML = "Beräknas vara: " +tempToWrite + " grader";
+    }
 }
 
 //bestämma vilken vädericon som ska visas
-function iconDraw(iconValue)
+function iconDraw(iconValue,iconId,textId)
 {
-  iconPlace = document.getElementById("todaysIcon");
-  iconText = document.getElementById("iconText");
+  iconPlace = document.getElementById(iconId);
+  iconText = document.getElementById(textId);
   //todaysIcon.src = "img/<weather>.png";
   switch (iconValue) {
     case 27:

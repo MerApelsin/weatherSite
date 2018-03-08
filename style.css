@@ -8,20 +8,39 @@ body {
   background-color: green;
   justify-content: center;
   text-align: center;
+  width: auto;
+  height: auto;
+  margin: 1rem;
 }
 .secWeek {
   display: flex;
   background-color: blue;
-  justify-content: center;
+  justify-content: space-around;
   text-align: center;
+  flex-direction: row;
 }
-.weekDiv{
-  border:solid 1px black;
-  padding: 1rem;
+.background
+{
+  background-color: white;
+  height: auto;
+  width: auto;
 }
 
-.weekdiv img
+.weekDiv{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.futureStyle{
+  border: 1px solid black;
+  padding: 1.5rem;
+}
+.futureStyle img{
+  width: 80%;
+}
+
+footer
 {
-  max-width: 50%;
-  max-height: 50%;
+  text-align: center;
 }

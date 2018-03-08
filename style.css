@@ -1,9 +1,27 @@
+body {
+  width: 100%;
+  height: auto;
+}
+
 .secToday {
   display: flex;
   background-color: green;
-  position: center;
+  justify-content: center;
+  text-align: center;
 }
 .secWeek {
   display: flex;
   background-color: blue;
+  justify-content: center;
+  text-align: center;
+}
+.weekDiv{
+  border:solid 1px black;
+  padding: 1rem;
+}
+
+.weekdiv img
+{
+  max-width: 50%;
+  max-height: 50%;
 }

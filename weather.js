@@ -47,7 +47,7 @@ function handleToday(apiResponse)
       break;
     }
   }
-  document.getElementById("showDate").innerHTML = "Visar prognos för Idag ("+myTimeDate+"), klockan: " + getTimeFetched(apiResponse.timeSeries[thisValue].validTime);
+  document.getElementById("showDate").innerHTML = "Visar prognos för Idag ("+myTimeDate+")<br> klockan: " + getTimeFetched(apiResponse.timeSeries[thisValue].validTime);
   let thisTempPara = findTemp(apiResponse.timeSeries[thisValue].parameters);
   let thisIconPara = findIcon(apiResponse.timeSeries[thisValue].parameters);
   iconDraw(apiResponse.timeSeries[thisValue].parameters[thisIconPara].values[0],"todaysIcon","iconText");

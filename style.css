@@ -1,4 +1,8 @@
-
+*::before, *::after
+{
+  margin: 0;
+  padding: 0;
+}
 
 body {
   width: 100%;
@@ -7,13 +11,24 @@ body {
   background-image: url(img/background.jpeg);
 }
 
+h2,h3{
+  font-family: 'Courgette', cursive;
+  padding: 0.3rem;
+  margin: 0;
+}
+h4,p
+{
+  font-family: 'Open Sans', sans-serif;
+  padding: 0.4rem;
+  margin: 0;
+}
 .secToday {
   display: flex;
   justify-content: center;
   text-align: center;
   width: auto;
   height: auto;
-  margin: 1rem;
+  margin: 0.5rem;
 }
 .secWeek {
   display: flex;

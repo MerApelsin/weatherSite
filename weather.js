@@ -1,29 +1,4 @@
 getData();
-//timeTesting();
-function timeTesting(){
-
-  let myTime = getDateString();
-  let myTimeDate = myTime.slice(0,10);
-  let myTimeArray = myTimeDate.split("-");
-  let timeUseArray = [];
-
-  for(let i = 0; i < 5; i++)
-  {
-    myTimeArray[2] = parseInt(myTimeArray[2]);
-    myTimeArray[2] = myTimeArray[2]+1;
-    if(myTimeArray[2] < 10)
-    {
-      let temp = myTimeArray[2].toString();
-      myTimeArray[2] = "0" + temp;
-    }
-    let tempString = myTimeArray.join("-");
-    timeUseArray.push(tempString);
-  }
-  console.log("timeUseArray, myTimeDate, myTimeArray");
-  console.log(timeUseArray);
-  console.log(myTimeDate);
-  console.log(myTimeArray);
-}
 
 async function getData()
 {

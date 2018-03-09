@@ -19,21 +19,34 @@ h2,h3{
 h4,p
 {
   font-family: 'Open Sans', sans-serif;
-  padding: 0.4rem;
+  padding: 0.2rem;
   margin: 0;
 }
 .secToday {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-pack: center;
+  -ms-flex-pack: center;
   justify-content: center;
   text-align: center;
   width: auto;
   height: auto;
   margin: 0.5rem;
 }
+.secToday img {
+  width: 50%;
+}
 .secWeek {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -ms-flex-pack: distribute;
   justify-content: space-around;
   text-align: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
 }
 .background
@@ -46,8 +59,14 @@ h4,p
 }
 
 .weekDiv{
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+  -ms-flex-direction: row;
   flex-direction: row;
+  -ms-flex-wrap: wrap;
   flex-wrap: wrap;
 }
 
@@ -58,7 +77,7 @@ h4,p
   background-color: rgba(255, 255, 255, 0.5);
 }
 .futureStyle img{
-  width: 80%;
+  width: 50%;
 }
 
 footer

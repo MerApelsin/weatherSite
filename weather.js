@@ -51,7 +51,7 @@ function handleToday(apiResponse)
   let thisTempPara = findTemp(apiResponse.timeSeries[thisValue].parameters);
   let thisIconPara = findIcon(apiResponse.timeSeries[thisValue].parameters);
   iconDraw(apiResponse.timeSeries[thisValue].parameters[thisIconPara].values[0],"todaysIcon","iconText");
-  let textNode = document.createTextNode("Nuvarande temperatur är ungefär: " + apiResponse.timeSeries[thisValue].parameters[thisTempPara].values[0] + " Celsius");
+  let textNode = document.createTextNode("Temperaturen är ungefär: " + apiResponse.timeSeries[thisValue].parameters[thisTempPara].values[0] + " Celsius");
   myTextTag.appendChild(textNode);
   theDiv.appendChild(myTextTag);
 }
@@ -59,11 +59,11 @@ function handleToday(apiResponse)
 function handleWeek(apiResponse)
 {
   let week = getWeek();
-  let wantTime = "12:00:00";
+  let wantTime = "12:00:00"; // behövs inte för min/max temp, men tar den iconen
 
-  //tiden ska alltid vara 12:00 UTC för framtida dagar.
   let theseValues = [];
-  let temperatures = [];
+  let lowestTemp = [];
+  let highestTemp = [];
   let icons = [];
   //for-loop för att finna alla värden som behövs för vekoprognos
   for(let i = 0; i < week.length; i++)
@@ -80,24 +80,25 @@ function handleWeek(apiResponse)
         break;
       }
     }
-    temperatures.push(findTemp(apiResponse.timeSeries[theseValues[i]].parameters));
+    lowestTemp.push(findMinTemp(apiResponse, week[i]));
+    highestTemp.push(findMaxTemp(apiResponse, week[i]));
     icons.push(findIcon(apiResponse.timeSeries[theseValues[i]].parameters));
   }
-  drawWeek(apiResponse,theseValues,temperatures,icons,week);
+  drawWeek(apiResponse,theseValues,lowestTemp,highestTemp,icons,week);
 }
 
-function drawWeek(apiResponse,theseValues,temperatures,icons,week)
+function drawWeek(apiResponse,theseValues,highest,lowest,icons,week)
 {
     for(let a = 0; a < week.length; a++)
     {
       let prognosTime = document.getElementById("date"+a);
       let temperatur = document.getElementById("temp"+a);
-      let tempToWrite = apiResponse.timeSeries[theseValues[a]].parameters[temperatures[a]].values[0];
       prognosTime.innerHTML = week[a];
       iconDraw(apiResponse.timeSeries[theseValues[a]].parameters[icons[a]].values[0],"future"+a,"ftext"+a);
-      temperatur.innerHTML = "Beräknas vara: " +tempToWrite + " grader";
+      temperatur.innerHTML =  "Högsta temperatur: " + highest[a] + "<br>Lägsta temperatur: " + lowest[a];
     }
 }
+
 
 //bestämma vilken vädericon som ska visas
 function iconDraw(iconValue,iconId,textId)
@@ -200,6 +201,40 @@ function findTemp(thisTimeSeries)
   }
 }
 
+function findMinTemp(apiResponse,whichDate)
+{
+  let theseTemperatures = [];
+    //for-loop för att hitta vart i svaret de relevanta datumen/tiderna finns
+    for(let a = 0; a < apiResponse.timeSeries.length; a++)
+    {
+      let responseTime = apiResponse.timeSeries[a].validTime;
+      let rTimeDate = responseTime.slice(0,10);
+      if(rTimeDate == whichDate)
+      {
+        let tempPlace = findTemp(apiResponse.timeSeries[a].parameters);
+        theseTemperatures.push(apiResponse.timeSeries[a].parameters[tempPlace].values[0]);
+      }
+    }
+    return theseTemperatures.reduce((val,next) => val > next ? val : next);
+}
+
+//Samma som findMinTemp, fast högsta istället.
+function findMaxTemp(apiResponse,whichDate)
+{
+  let theseTemperatures = [];
+    for(let a = 0; a < apiResponse.timeSeries.length; a++)
+    {
+      let responseTime = apiResponse.timeSeries[a].validTime;
+      let rTimeDate = responseTime.slice(0,10);
+      if(rTimeDate == whichDate)
+      {
+        let tempPlace = findTemp(apiResponse.timeSeries[a].parameters);
+        theseTemperatures.push(apiResponse.timeSeries[a].parameters[tempPlace].values[0]);
+      }
+    }
+    return theseTemperatures.reduce((val, next) => (val < next) ? val : next);
+}
+
 //Ta emot 2 stängar med 'int', gör om dessa till int array för att jämföra
 //returnerar true eller false
 function compareTime(myHours,apiHours)
@@ -259,3 +294,50 @@ function getWeek()
 
   return useDates;
 }
+
+//-------- Kod som inte längre används pga förändrningar, men som jag inte vill slänga helt :(
+
+/*function handleWeek(apiResponse)
+{
+  let week = getWeek();
+  let wantTime = "12:00:00";
+
+  //tiden ska alltid vara 12:00 UTC för framtida dagar.
+  let theseValues = [];
+  let temperatures = [];
+  let icons = [];
+  //for-loop för att finna alla värden som behövs för vekoprognos
+  for(let i = 0; i < week.length; i++)
+  {
+    //for-loop för att hitta vart i svaret de relevanta datumen/tiderna finns
+    for(let a = 0; a < apiResponse.timeSeries.length; a++)
+    {
+      let responseTime = apiResponse.timeSeries[a].validTime;
+      let rTimeDate = responseTime.slice(0,10);
+      let rTimeHours = responseTime.slice(11,16);
+      if(rTimeDate === week[i] && compareTime(wantTime,rTimeHours) == true)
+      {
+        theseValues.push(a);
+        break;
+      }
+    }
+
+    temperatures.push(findTemp(apiResponse.timeSeries[theseValues[i]].parameters));
+    icons.push(findIcon(apiResponse.timeSeries[theseValues[i]].parameters));
+  }
+  drawWeek(apiResponse,theseValues,temperatures,icons,week);
+} */
+
+
+/*function drawWeek(apiResponse,theseValues,temperatures,icons,week)
+{
+    for(let a = 0; a < week.length; a++)
+    {
+      let prognosTime = document.getElementById("date"+a);
+      let temperatur = document.getElementById("temp"+a);
+      let tempToWrite = apiResponse.timeSeries[theseValues[a]].parameters[temperatures[a]].values[0];
+      prognosTime.innerHTML = week[a];
+      iconDraw(apiResponse.timeSeries[theseValues[a]].parameters[icons[a]].values[0],"future"+a,"ftext"+a);
+      temperatur.innerHTML = "Beräknas vara: " +tempToWrite + " grader";
+    }
+}*/

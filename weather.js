@@ -116,7 +116,7 @@ function iconDraw(iconValue,iconId,textId)
     case 3:
     case 4:
       //halvklart
-      iconPlace.src = "img/partlyclear.png";
+      iconPlace.src = "img/partlyClear.png";
       iconText.innerHTML = "Delvis klart.";
       break;
     case 5:
